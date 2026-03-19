@@ -1,20 +1,24 @@
 version: 2
-project_name: samoa
+project_name: mtx
 
 builds:
-  - skip: true  # Library packages don't build binaries
+  - main: ./cmd/mtx
+    binary: mtx
+    ldflags:
+      - -s -w
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
 
 archives:
-  - id: source
+  - id: default
     files:
-      - "*.go"
-      - "go.mod"
-      - "go.sum"
-      - "LICENSE"
-      - "README.md"
-      - "Makefile"
-      - "docs/**/*"
-    name_template: "{{ .ProjectName }}_{{ .Version }}_source"
+      - LICENSE
+      - README.md
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 changelog:
   use: github
@@ -34,7 +38,7 @@ changelog:
 release:
   github:
     owner: zoobzio
-    name: samoa
+    name: mtx
   draft: false
   prerelease: auto
   mode: append
